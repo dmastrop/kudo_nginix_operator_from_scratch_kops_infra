@@ -1,0 +1,12 @@
+apiVersion: kudo.dev/v1beta1
+parameters:
+  - name: replicas
+  # number of replicas for the deployment default set at 2
+    description: Number of replicas that should be run as part of the deployment
+    default: 2
+  - name: logFile
+  # this is the logFile name used in the nginx-conf file as specified in the configmap.yaml file
+  # this can be toggled to dev.log for development, etc.....
+    description: The name of the Nginx access log file
+    #default: dev.log
+    default: access.log

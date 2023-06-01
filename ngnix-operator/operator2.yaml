@@ -1,0 +1,44 @@
+apiVersion: kudo.dev/v1beta1
+name: "nginx-operator"
+operatorVersion: "0.1.11"
+#this tells kudo to reapply the operator.yaml
+appVersion: "1.21.4"
+#this is the nginx version 1.21.4
+kubernetesVersion: 1.21.7
+# make sure this agrees with the kops deployment.   --kubernetes-version=1.21.7
+maintainers:
+  - name: Ahmed
+    email: ahmed@linuxschoolonline.com
+url: https://kudo.dev
+tasks:
+  - name: app
+    kind: Apply
+    # the template files below will be applied for this task
+    spec:
+      resources:
+        - deployment.yaml
+        - service.yaml
+        - configmap.yaml
+#  - name: assets
+#    kind: Pipe
+#    spec:
+#      pod: pipe-pod.yaml
+#      pipe:
+#        - file: /tmp/index.html
+#          kind: ConfigMap
+#          key: indexHtml
+plans:
+  deploy:
+    strategy: serial
+    phases:
+      - name: main
+        strategy: serial
+        # only one step originallly (just deploy) so it does not matter
+        steps:
+ #         - name: genfiles
+ #           tasks:
+ #             - assets
+          - name: deploy
+            tasks:
+              - app
+              #this plan will deploy the one task above called "app", i.e. apply those yaml files.

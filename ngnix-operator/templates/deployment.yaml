@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: {{ .Params.replicas }}
+  # first dynamic value is replicas from the params.yaml file
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:{{ .AppVersion }}
+        # this is the nginx image tag from the operator.yaml file.
+        ports:
+        - containerPort: 80
+        # note the containerPort. The LoadBalancer will have the same port in the service.yaml file.
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+#        - name: www
+#          mountPath: /usr/share/nginx/html/
+      volumes:
+      - name: config-volume
+        configMap:
+          name: nginx-config
+          # this is a static ConfigMap. See configmap.yaml. The configmap.yaml has the contents of the nginx-config file.
+          # it is mounted via this volume to the nginx container.
+#      - name: www
+#        configMap:
+#          name: {{ .Pipes.indexHtml }}

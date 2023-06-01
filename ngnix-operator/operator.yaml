@@ -1,8 +1,7 @@
 apiVersion: kudo.dev/v1beta1
 name: "nginx-operator"
-operatorVersion: "0.1.4"
+operatorVersion: "0.1.19"
 appVersion: "1.21.4"
-#this is the nginx version 1.21.4
 kubernetesVersion: 1.21.7
 maintainers:
   - name: Ahmed
@@ -16,24 +15,29 @@ tasks:
         - deployment.yaml
         - service.yaml
         - configmap.yaml
-  - name: assets
-    kind: Pipe
-    spec:
-      pod: pipe-pod.yaml
-      pipe:
-        - file: /tmp/index.html
-          kind: ConfigMap
-          key: indexHtml
+#  - name: assets
+#    kind: Pipe
+#    spec:
+#      pod: pipe-pod.yaml
+#      pipe:
+#        - file: /tmp/index.html
+#          kind: ConfigMap
+#          key: indexHtml
 plans:
   deploy:
     strategy: serial
     phases:
       - name: main
-        strategy: serial
+        strategy: parallel
         steps:
-          - name: genfiles
-            tasks:
-              - assets
           - name: deploy
             tasks:
               - app
+#        strategy: serial
+#        steps:
+#          - name: genfiles
+#            tasks:
+#              - assets
+#          - name: deploy
+#            tasks:
+#              - app
