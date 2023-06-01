@@ -5,7 +5,7 @@ kind: ConfigMap
 metadata:
   name: nginx-config
   # this is the name referenced in the deployment.yaml file.
-  # note the config below gives ability to name the log file dynamically through the .Params.logfile
+  # note the config below gives ability to name the access_log file dynamically through the .Params.logfile
 data:
   nginx.conf: |
     user  nginx;

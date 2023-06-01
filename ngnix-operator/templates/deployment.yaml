@@ -21,10 +21,11 @@ spec:
         # this is the nginx image tag from the operator.yaml file.
         ports:
         - containerPort: 80
-        # note the containerPort. The LoadBalancer will have the same port in the service.yaml file.
+        # note the containerPort. The LoadBalancer will have the same port in the service.yaml file.  No port mapping.
         volumeMounts:
         - name: config-volume
           mountPath: /etc/nginx/nginx.conf
+          # this will be from the configmap.  See below
           subPath: nginx.conf
 #        - name: www
 #          mountPath: /usr/share/nginx/html/
@@ -37,3 +38,4 @@ spec:
 #      - name: www
 #        configMap:
 #          name: {{ .Pipes.indexHtml }}
+# see operator.yaml file for the pipe

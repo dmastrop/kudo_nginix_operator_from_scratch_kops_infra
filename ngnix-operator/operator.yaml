@@ -1,6 +1,6 @@
 apiVersion: kudo.dev/v1beta1
 name: "nginx-operator"
-operatorVersion: "0.1.19"
+operatorVersion: "0.1.0"
 appVersion: "1.21.4"
 kubernetesVersion: 1.21.7
 maintainers:
